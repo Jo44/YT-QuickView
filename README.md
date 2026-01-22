@@ -13,6 +13,10 @@ Extension Chrome pour améliorer l'affichage de YouTube avec un mode Quick View 
 
 ## Installation
 
+### Depuis le Chrome WebStore
+
+[Lien 🌐](https://chromewebstore.google.com/detail/youtube-quick-view/pfgnimcdoenieikioadlnbicnjldmhoa) 
+
 ### Depuis les fichiers sources
 
 1. Clonez ou téléchargez ce dépôt
