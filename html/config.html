@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">YouTube - Quick View</title>
+    <link rel="stylesheet" href="../css/config.css">
+</head>
+
+<body>
+    <div class="popup-container">
+        <header class="popup-header">
+            <h1 data-i18n="header-title"></h1>
+        </header>
+
+        <main class="popup-content">
+            <!-- Section Utilisation -->
+            <section class="option-section">
+                <h2 class="section-title" data-i18n="usage-title"></h2>
+                <div class="usage-content">
+                    <p>
+                        <span data-i18n="usage-description-part1"></span>
+                        <span class="button-preview-container">
+                            <span class="button-preview" id="button-preview-grid" title="Mode classique"></span>
+                            <span> / </span>
+                            <span class="button-preview" id="button-preview-list" title="Mode liste"></span>
+                        </span>
+                        <span data-i18n="usage-description-part2"></span>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Séparateur -->
+            <div class="section-separator"></div>
+
+            <!-- Section Raccourci -->
+            <section class="option-section">
+                <h2 class="section-title" data-i18n="shortcut-title"></h2>
+                <div class="shortcut-row">
+                    <p class="section-description" data-i18n="shortcut-description"></p>
+                    <div class="shortcut-display">
+                        <kbd>Shift</kbd> + <kbd>L</kbd>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Séparateur -->
+            <div class="section-separator"></div>
+
+            <!-- Section Couleurs -->
+            <section class="option-section">
+                <div class="section-title-row">
+                    <h2 class="section-title" data-i18n="colors-title"></h2>
+                    <!-- Toggle Switch -->
+                    <label class="colors-toggle">
+                        <input type="checkbox" id="colors-enabled" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+
+                </div>
+
+                <div class="theme-boxes-container">
+                    <!-- Mode Sombre -->
+                    <div class="theme-box">
+                        <div class="theme-title-row">
+                            <h3 class="theme-title" data-i18n="dark-mode-title"></h3>
+                            <!-- Bouton de reset -->
+                            <button class="btn-reset-theme" data-theme="dark">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                    <path d="M21 3v5h-5"></path>
+                                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                                    <path d="M3 21v-5h5"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Couleurs des dates -->
+                        <div class="color-group">
+                            <h4 class="color-group-title" data-i18n="date-title"></h4>
+                            <div class="color-options">
+                                <div class="color-option">
+                                    <label for="date-default-dark" data-i18n="date-default"></label>
+                                    <input type="color" id="date-default-dark" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-day-dark" data-i18n="date-day"></label>
+                                    <input type="color" id="date-day-dark" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-week-dark" data-i18n="date-week"></label>
+                                    <input type="color" id="date-week-dark" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-month-dark" data-i18n="date-month"></label>
+                                    <input type="color" id="date-month-dark" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-year-1-3-dark" data-i18n="date-year-1-3"></label>
+                                    <input type="color" id="date-year-1-3-dark" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-year-3-plus-dark" data-i18n="date-year-3-plus"></label>
+                                    <input type="color" id="date-year-3-plus-dark" class="color-picker" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Couleurs des vues -->
+                        <div class="color-group">
+                            <h4 class="color-group-title" data-i18n="views-title"></h4>
+                            <div class="color-options">
+                                <div class="color-option">
+                                    <label for="views-k-dark" data-i18n="views-k"></label>
+                                    <input type="color" id="views-k-dark" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="views-m-dark" data-i18n="views-m"></label>
+                                    <input type="color" id="views-m-dark" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="views-md-dark" data-i18n="views-md"></label>
+                                    <input type="color" id="views-md-dark" class="color-picker" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode Clair -->
+                    <div class="theme-box">
+                        <div class="theme-title-row">
+                            <h3 class="theme-title" data-i18n="light-mode-title"></h3>
+                            <!-- Bouton de reset -->
+                            <button class="btn-reset-theme" data-theme="light">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                    <path d="M21 3v5h-5"></path>
+                                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                                    <path d="M3 21v-5h5"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Couleurs des dates -->
+                        <div class="color-group">
+                            <h4 class="color-group-title" data-i18n="date-title"></h4>
+                            <div class="color-options">
+                                <div class="color-option">
+                                    <label for="date-default-light" data-i18n="date-default"></label>
+                                    <input type="color" id="date-default-light" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-day-light" data-i18n="date-day"></label>
+                                    <input type="color" id="date-day-light" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-week-light" data-i18n="date-week"></label>
+                                    <input type="color" id="date-week-light" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-month-light" data-i18n="date-month"></label>
+                                    <input type="color" id="date-month-light" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-year-1-3-light" data-i18n="date-year-1-3"></label>
+                                    <input type="color" id="date-year-1-3-light" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="date-year-3-plus-light" data-i18n="date-year-3-plus"></label>
+                                    <input type="color" id="date-year-3-plus-light" class="color-picker" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Couleurs des vues -->
+                        <div class="color-group">
+                            <h4 class="color-group-title" data-i18n="views-title"></h4>
+                            <div class="color-options">
+                                <div class="color-option">
+                                    <label for="views-k-light" data-i18n="views-k"></label>
+                                    <input type="color" id="views-k-light" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="views-m-light" data-i18n="views-m"></label>
+                                    <input type="color" id="views-m-light" class="color-picker" />
+                                </div>
+                                <div class="color-option">
+                                    <label for="views-md-light" data-i18n="views-md"></label>
+                                    <input type="color" id="views-md-light" class="color-picker" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="../js/config.js"></script>
+</body>
+
+</html>

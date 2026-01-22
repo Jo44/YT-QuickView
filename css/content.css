@@ -1,0 +1,209 @@
+/* ============================================================
+    COULEURS
+    ============================================================ */
+
+/* Couleurs de l'ancienneté - Mode sombre */
+html[dark],
+body[dark] {
+    --quick-view-date-day: #54E38F;
+    /* Vert clair pour les vidéos du jour */
+    --quick-view-date-week: #54D7E3;
+    /* Cyan pour les vidéos de la semaine */
+    --quick-view-date-month: #5484E3;
+    /* Bleu pour les vidéos du mois */
+    --quick-view-date-year-1-3: #8F6BEB;
+    /* Violet pour 1-3 ans */
+    --quick-view-date-year-3-plus: #CC54E3;
+    /* Violet foncé pour 3+ ans */
+    --quick-view-date-default: #64E354;
+    /* Vert par défaut */
+}
+
+/* Couleurs de l'ancienneté - Mode clair */
+html:not([dark]) {
+    --quick-view-date-day: #0F9D58;
+    /* Vert foncé pour les vidéos du jour */
+    --quick-view-date-week: #0D7377;
+    /* Cyan foncé pour les vidéos de la semaine */
+    --quick-view-date-month: #1A73E8;
+    /* Bleu foncé pour les vidéos du mois */
+    --quick-view-date-year-1-3: #6C1ED9;
+    /* Violet foncé pour 1-3 ans */
+    --quick-view-date-year-3-plus: #8E24AA;
+    /* Violet très foncé pour 3+ ans */
+    --quick-view-date-default: #137333;
+    /* Vert foncé par défaut */
+}
+
+/* Couleurs du nombre de vues - Mode sombre */
+html[dark],
+body[dark] {
+    --quick-view-views-k: #FFE8C9;
+    /* Beige clair pour milliers (k) */
+    --quick-view-views-m: #FFCC8A;
+    /* Orange clair pour millions (M) */
+    --quick-view-views-md: #FFB85C;
+    /* Orange foncé pour milliards (Md) */
+}
+
+/* Couleurs du nombre de vues - Mode clair */
+html:not([dark]) {
+    --quick-view-views-k: #C48938;
+    /* Beige foncé pour milliers (k) */
+    --quick-view-views-m: #FA9717;
+    /* Orange clair pour millions (M) */
+    --quick-view-views-md: #FBA434;
+    /* Orange foncé pour milliards (Md) */
+}
+
+/* ============================================================
+    THEMES
+    ============================================================ */
+
+/* Thème clair */
+html:not([dark]) #yt-quick-view-toggle-btn {
+    color: #3A3A3A !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not([dark]) #yt-quick-view-toggle-btn:hover:not(.clicked) {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+html:not([dark]) #yt-quick-view-toggle-btn:active,
+html:not([dark]) #yt-quick-view-toggle-btn.clicked {
+    background: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Thème sombre */
+html[dark] #yt-quick-view-toggle-btn,
+body[dark] #yt-quick-view-toggle-btn {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+html[dark] #yt-quick-view-toggle-btn:hover:not(.clicked),
+body[dark] #yt-quick-view-toggle-btn:hover:not(.clicked) {
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+html[dark] #yt-quick-view-toggle-btn:active,
+html[dark] #yt-quick-view-toggle-btn.clicked,
+body[dark] #yt-quick-view-toggle-btn:active,
+body[dark] #yt-quick-view-toggle-btn.clicked {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ============================================================
+    MODE QUICK VIEW
+    ============================================================ */
+
+html.yt-quick-view-mode ytd-rich-grid-renderer {
+    --ytd-rich-grid-items-per-row: 6 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+html.yt-quick-view-mode ytd-rich-grid-renderer #contents {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 16px !important;
+}
+
+@media (min-width: 1920px) {
+    html.yt-quick-view-mode ytd-rich-grid-renderer #contents {
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 1280px) {
+    html.yt-quick-view-mode ytd-rich-grid-renderer #contents {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 960px) {
+    html.yt-quick-view-mode ytd-rich-grid-renderer #contents {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    html.yt-quick-view-mode ytd-rich-grid-renderer #contents {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    }
+}
+
+/* ============================================================
+    ITEMS
+    ============================================================ */
+
+html.yt-quick-view-mode ytd-rich-item-renderer {
+    margin: 0 8px !important;
+    width: calc(100% - 16px) !important;
+}
+
+html.yt-quick-view-mode ytd-rich-item-renderer>*,
+html.yt-quick-view-mode ytd-rich-item-renderer #dismissible,
+html.yt-quick-view-mode ytd-rich-item-renderer [id*="dismissible"],
+html.yt-quick-view-mode ytd-rich-item-renderer>div {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+html.yt-quick-view-mode ytd-rich-item-renderer ytd-thumbnail,
+html.yt-quick-view-mode ytd-rich-item-renderer #details,
+html.yt-quick-view-mode ytd-rich-item-renderer ytd-video-meta-block {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* ============================================================
+    SECTIONS
+    ============================================================ */
+
+/* Masquer les sections de contenu groupées */
+html.yt-quick-view-mode ytd-rich-section-renderer {
+    display: none !important;
+}
+
+/* Masquer aussi les autres types de sections problématiques */
+html.yt-quick-view-mode ytd-rich-shelf-renderer,
+html.yt-quick-view-mode ytd-reel-shelf-renderer {
+    display: none !important;
+}
+
+/* ============================================================
+    BOUTON DE BASCULE
+    ============================================================ */
+
+/* Styles de base du bouton */
+#yt-quick-view-toggle-btn {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+    padding: 0 !important;
+    height: 36px !important;
+    width: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: "Roboto", "Arial", sans-serif !important;
+    font-weight: bold !important;
+    border: none !important;
+    border-radius: 26px !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+}
+
+/* Styles SVG dans le bouton */
+#yt-quick-view-toggle-btn svg {
+    display: block !important;
+    margin: auto !important;
+    fill: none !important;
+    flex-shrink: 0 !important;
+}

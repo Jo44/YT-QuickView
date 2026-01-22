@@ -1,0 +1,21 @@
+# Fichiers d'empaquetage
+*.zip
+*.crx
+*.pem
+*.ps1
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers de développement
+.vscode/
+.idea/
+PUBLICATION.md
+quick_view_config_fr.png
+quick_view_display_fr.png
+
+# Node modules
+node_modules/
+package-lock.json

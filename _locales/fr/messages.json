@@ -1,0 +1,10 @@
+{
+    "appName": {
+        "message": "YouTube - Quick View",
+        "description": "Nom de l'extension"
+    },
+    "appDescription": {
+        "message": "Bascule rapide du mode d'affichage des vidéos (classique ou grande grille), et colorise les statistiques (ancienneté, nombre de vues).",
+        "description": "Description de l'extension"
+    }
+}

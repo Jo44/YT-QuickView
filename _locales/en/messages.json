@@ -1,0 +1,10 @@
+{
+    "appName": {
+        "message": "YouTube - Quick View",
+        "description": "Extension name"
+    },
+    "appDescription": {
+        "message": "Quickly switch between video list mode (classic or large grid), and colorize statistics (age, number of views).",
+        "description": "Extension description"
+    }
+}
