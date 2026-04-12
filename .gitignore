@@ -10,6 +10,7 @@ Thumbs.db
 desktop.ini
 
 # Fichiers de développement
+.vs/
 .vscode/
 .idea/
 PUBLICATION.md
