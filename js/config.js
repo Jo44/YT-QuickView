@@ -26,6 +26,8 @@
             'colors-title': 'Couleurs',
             'dark-mode-title': 'Mode sombre',
             'light-mode-title': 'Mode clair',
+            'global-title': 'Global',
+            'global-youtube': 'Marqueur YouTube',
             'date-title': 'Ancienneté',
             'date-default': 'Heure',
             'date-day': 'Jour',
@@ -48,8 +50,10 @@
             'shortcut-title': 'Shortcut',
             'shortcut-description': 'Keyboard shortcut to toggle Quick View mode : ',
             'colors-title': 'Colors',
-            'dark-mode-title': 'Dark Mode',
-            'light-mode-title': 'Light Mode',
+            'dark-mode-title': 'Dark mode',
+            'light-mode-title': 'Light mode',
+            'global-title': 'Global',
+            'global-youtube': 'YouTube marker',
             'date-title': 'Age',
             'date-default': 'Hour',
             'date-day': 'Day',
@@ -67,6 +71,9 @@
 
     // Couleurs par défaut
     const DEFAULT_COLORS = {
+        // Global
+        'youtube-marker-dark': '#F04949',
+        'youtube-marker-light': '#963232',
         // Ancienneté
         'date-default-dark': '#64E354',
         'date-day-dark': '#54E38F',
@@ -92,6 +99,9 @@
     // Éléments DOM
     const colorsEnabledCheckbox = document.getElementById('colors-enabled');
     const colorPickers = {
+        // Global
+        'youtube-marker-dark': document.getElementById('youtube-marker-dark'),
+        'youtube-marker-light': document.getElementById('youtube-marker-light'),
         // Ancienneté
         'date-default-dark': document.getElementById('date-default-dark'),
         'date-day-dark': document.getElementById('date-day-dark'),

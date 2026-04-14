@@ -62,3 +62,9 @@ Quick View/
 - Les préférences sont sauvegardées dans `localStorage` (état du mode) et `chrome.storage.local` (couleurs et activation)
 - La popup de configuration permet de personnaliser les couleurs pour chaque thème (clair/sombre)
 - La colorisation peut être activée/désactivée via un toggle dans la popup de configuration
+
+## Updates
+- **v1.0** : 
+  - Initial release
+- **v1.1** : 
+  - Fixed CSS selectors for colorization (YouTube update)

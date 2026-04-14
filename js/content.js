@@ -35,6 +35,7 @@
     // Cache
     const processedElements = new WeakSet();           // Éléments déjà traités
     const styleCache = new WeakMap();                  // Cache des styles appliqués
+    let cachedYoutubeMarkerColor = null;               // Cache de la couleur du marqueur YouTube
     let cachedDateColors = null;                       // Cache des couleurs de dates
     let cachedViewsColors = null;                      // Cache des couleurs de vues
 
@@ -337,6 +338,7 @@
      * Invalide le cache des couleurs CSS (appelé lors des changements de thème)
      */
     function invalidateColorCache() {
+        cachedYoutubeMarkerColor = null;
         cachedDateColors = null;
         cachedViewsColors = null;
     }
@@ -356,6 +358,7 @@
      */
     function clearAllColors() {
         const cssVars = [
+            '--quick-view-youtube-marker',
             '--quick-view-date-day', '--quick-view-date-week', '--quick-view-date-month',
             '--quick-view-date-year-1-3', '--quick-view-date-year-3-plus', '--quick-view-date-default',
             '--quick-view-views-k', '--quick-view-views-m', '--quick-view-views-md'
@@ -386,6 +389,7 @@
                     const isLight = colorKey.endsWith('-light');
 
                     const cssVarMap = {
+                        'youtube-marker': '--quick-view-youtube-marker',
                         'date-day': '--quick-view-date-day',
                         'date-week': '--quick-view-date-week',
                         'date-month': '--quick-view-date-month',
@@ -456,42 +460,40 @@
 
         if (lang === 'fr') {
             // Pattern français : "il y a [nombre] [unité]" ou "[nombre] [unité]"
-            // Le texte doit être relativement court (max 50 caractères) pour éviter les phrases narratives
-            if (text.length > 50) return null;
+            // Le texte doit être relativement court (max 150 caractères) pour éviter les phrases narratives
+            if (text.length > 150) return null;
 
             // Vérifier que "il y a" est suivi d'un nombre et d'une unité temporelle
-            // Pattern : "il y a" + nombre + unité (jour/semaine/mois/an/heure/minute)
-            datePattern = /il\s+y\s+a\s+(\d+)\s+(jour|semaine|mois|an|heure|minute|second)/i;
+            // Pattern : "il y a" + nombre + unité (jour/semaine/mois/an/a/heure/h/minute/s...)
+            datePattern = /il\s+y\s+a\s+(\d+)\s+(jour|j\b|semaine|sem\b|mois|m\b|an|a\b|heure|h\b|minute|min\b|second|s\b)/i;
             if (!datePattern.test(lower)) {
-                // Fallback : vérifier si c'est juste une unité temporelle après "il y a"
-                // mais seulement si le texte est très court (format YouTube typique)
-                if (text.length > 30) return null;
+                if (text.length > 100) return null;
             }
         } else {
             // Pattern anglais : "[nombre] [unité] ago" ou similaire
-            if (text.length > 50) return null;
+            if (text.length > 150) return null;
 
-            datePattern = /(\d+)\s+(day|week|month|year|hour|minute|second)\s+ago/i;
+            datePattern = /(\d+)\s+(day|d\b|week|w\b|month|mo\b|year|y\b|hour|h\b|minute|m\b|second|s\b)\s+ago/i;
             if (!datePattern.test(lower)) {
-                if (text.length > 30) return null;
+                if (text.length > 100) return null;
             }
         }
 
         const dateColors = getDateColors();
 
         // Vérifier dans l'ordre : jour, semaine, mois, an
-        if (lower.includes(dateKeywords[1].toLowerCase())) {
+        if (lower.includes(dateKeywords[1].toLowerCase()) || /\b\d+\s*j\b/i.test(lower) || /\b\d+\s*d\b/i.test(lower)) {
             return { color: dateColors.DAY, fontWeight: 'normal' };
         }
-        if (lower.includes(dateKeywords[2].toLowerCase())) {
+        if (lower.includes(dateKeywords[2].toLowerCase()) || /\b\d+\s*sem\b/i.test(lower) || /\b\d+\s*w\b/i.test(lower)) {
             return { color: dateColors.WEEK, fontWeight: 'normal' };
         }
-        if (lower.includes(dateKeywords[3].toLowerCase())) {
+        if (lower.includes(dateKeywords[3].toLowerCase()) || /\b\d+\s*m\b/i.test(lower) || /\b\d+\s*mo\b/i.test(lower)) {
             return { color: dateColors.MONTH, fontWeight: 'normal' };
         }
-        if (lower.includes(dateKeywords[4].toLowerCase())) {
+        if (lower.includes(dateKeywords[4].toLowerCase()) || /\b\d+\s*a\b/i.test(lower) || /\b\d+\s*y\b/i.test(lower)) {
             // Extraire le nombre d'années pour différencier 1-3 ans et 3+ ans
-            const match = lower.match(/(\d+)/);
+            const match = lower.match(/(?:il\s+y\s+a\s+)?(\d+)\s*(?:an|a\b|year|y\b)/i) || lower.match(/(\d+)/);
             if (match) {
                 const years = parseInt(match[1]);
                 return {
@@ -523,6 +525,17 @@
     }
 
     /**
+     * Lit la couleur globale du marqueur YouTube depuis les variables CSS selon le thème actuel
+     */
+    function getYoutubeMarkerColor() {
+        if (cachedYoutubeMarkerColor) return cachedYoutubeMarkerColor;
+
+        const computedStyle = getComputedStyle(document.documentElement);
+        cachedYoutubeMarkerColor = computedStyle.getPropertyValue('--quick-view-youtube-marker').trim() || '#F04949';
+        return cachedYoutubeMarkerColor;
+    }
+
+    /**
      * Détermine la couleur à appliquer selon le nombre de vues
      * @param {string} text - Texte contenant le nombre de vues
      * @returns {Object|null} Objet avec color et fontWeight, ou null si non applicable
@@ -532,22 +545,59 @@
         if (!viewsKeywords) return null;
 
         const lower = text.toLowerCase();
+        const cleanStr = lower.replace(/[\s\u00A0\u2009\u202F]+/g, '').trim();
+        const shortMatch = /^\d+(?:[.,]\d+)?(k|m|b|md)?$/i.test(cleanStr);
+        const hasScalePipe = /^[\d.,]+(k|m|b|md)(?:\||$)/i.test(cleanStr);
 
-        // Vérifier qu'il y a le mot-clé de base (ex: "vues", "views")
-        if (!lower.includes(viewsKeywords[0].toLowerCase())) return null;
+        // Vérifier qu'il y a le mot-clé de base (ex: "vues", "views") ou une abréviation courte
+        const hasKeyword = lower.includes(viewsKeywords[0].toLowerCase()) || lower.includes('vue') || lower.includes('view') || lower.includes('spectateur') || lower.includes('spectator') || lower.includes('watching') || shortMatch || hasScalePipe;
+        if (!hasKeyword) return null;
 
         const cleanText = lower.replace(/\s+/g, ' ').trim();
         const viewsColors = getViewsColors();
 
-        // Vérifier dans l'ordre : milliards (MD), millions (M), milliers (K)
-        if (cleanText.includes(viewsKeywords[3].toLowerCase())) {
+        // Regex helpers pour détecter de façon robuste l'échelle même masquée par l'aria-label sans le mot "views"
+        const hasBScale = /^[\d.,]+(b|md)(?:\||v|$)/i.test(cleanStr) || /\|[\d.,]+(b|md)(?:\||v|$)/i.test(cleanStr);
+        const hasMScale = /^[\d.,]+m(?:\||v|$)/i.test(cleanStr) || /\|[\d.,]+m(?:\||v|$)/i.test(cleanStr);
+        const hasKScale = /^[\d.,]+k(?:\||v|$)/i.test(cleanStr) || /\|[\d.,]+k(?:\||v|$)/i.test(cleanStr);
+
+        // Vérifier dans l'ordre : milliards (MD/B), millions (M), milliers (K)
+        const isBillion = /\b(md|b)\b/i.test(cleanText) || cleanText.includes(viewsKeywords[3].toLowerCase()) || (shortMatch && (cleanStr.endsWith('b') || cleanStr.endsWith('md'))) || hasBScale;
+
+        // Détecter les milliards
+        if (isBillion) {
             return { color: viewsColors.MD, fontWeight: 'bold' };
         }
-        if (cleanText.includes(viewsKeywords[2].toLowerCase())) {
+
+        // Détecter les millions
+        const isMillion = /\bm\b/i.test(cleanText) || cleanText.includes('m de') || cleanText.includes(viewsKeywords[2].toLowerCase()) || (shortMatch && cleanStr.endsWith('m')) || hasMScale;
+        if (isMillion) {
             return { color: viewsColors.M, fontWeight: 'normal' };
         }
-        if (cleanText.includes(viewsKeywords[1].toLowerCase())) {
+
+        // Détecter les milliers
+        const isKilo = /\bk\b/i.test(cleanText) || cleanText.includes('mille') || cleanText.includes(viewsKeywords[1].toLowerCase()) || (shortMatch && cleanStr.endsWith('k')) || hasKScale;
+        if (isKilo) {
             return { color: viewsColors.K, fontWeight: 'normal' };
+        }
+
+        // Si c'est un nombre de vues exact sans abréviation (ex: "3 624 029 vues", "800", "1 vue")
+        const rawNumberMatch = cleanStr.match(/^[\d.,]+/);
+        if (rawNumberMatch) {
+            const numericString = rawNumberMatch[0].replace(/[.,]/g, '');
+            const exactNumber = parseInt(numericString, 10);
+
+            if (!isNaN(exactNumber)) {
+                if (exactNumber >= 1000000000) {
+                    return { color: viewsColors.MD, fontWeight: 'bold' };
+                } else if (exactNumber >= 1000000) {
+                    return { color: viewsColors.M, fontWeight: 'normal' };
+                } else if (exactNumber >= 1000) {
+                    return { color: viewsColors.K, fontWeight: 'normal' };
+                } else {
+                    return null;
+                }
+            }
         }
 
         return null;
@@ -617,7 +667,23 @@
         const keywords = getViewsKeywords();
         if (!keywords || !Array.isArray(keywords)) return false;
         const lower = text.toLowerCase();
-        return keywords.some(keyword => lower.includes(keyword.toLowerCase()));
+
+        if (keywords.some(keyword => lower.includes(keyword.toLowerCase()))) {
+            return true;
+        }
+
+        if (lower.includes('vue') || lower.includes('view') || lower.includes('spectateur') || lower.includes('spectator') || lower.includes('watching')) {
+            return true;
+        }
+
+        // Gérer les formats abrégés exacts comme "1,8 M" ou "12 k", ou les nbs exacts sans le mot "vues" (ex: "800")
+        const cleanText = lower.replace(/[\s\u00A0\u2009\u202F]+/g, '').trim();
+        if (/^\d+(?:[.,]\d+)?(k|m|b|md)?$/i.test(cleanText)) return true;
+
+        // Gérer l'aria-label combiné au texte sans "views" (ex: "36K | 36,000")
+        if (/^[\d.,]+(k|m|b|md)(?:\||$)/i.test(cleanText)) return true;
+
+        return false;
     }
 
     /**
@@ -648,24 +714,28 @@
             if (useCache && processedElements.has(element)) return;
             if (filter && !filter(element)) return;
 
-            const text = normalizeText
+            // Extraire le texte visible de l'élément
+            const visibleText = normalizeText
                 ? extractNormalizedText(element)
                 : (element.textContent || '').trim();
 
-            if (!text) return;
+            if (!visibleText) return;
+
+            // Combiner le texte visible et l'aria-label
+            const textToAnalyze = normalizeText ? getTextForAnalysis(element) : visibleText;
 
             // Vérifier les mots-clés si demandé
             if (checkKeywords) {
-                const lowerText = text.toLowerCase();
-                const hasDate = hasDateKeyword(text);
+                const lowerText = textToAnalyze.toLowerCase();
+                const hasDate = hasDateKeyword(textToAnalyze);
                 const hasViews = hasViewsKeyword(lowerText);
                 if (!hasDate && !hasViews) return;
             }
 
             // Préparer le texte pour la colorisation
             const textForColorization = addViewsKeyword
-                ? addViewsKeywordIfNeeded(text)
-                : text;
+                ? addViewsKeywordIfNeeded(textToAnalyze)
+                : textToAnalyze;
 
             applyStyle(element, colorizeText(textForColorization));
             if (useCache) processedElements.add(element);
@@ -685,6 +755,20 @@
             fullText = temp.innerText || temp.textContent || '';
         }
         return fullText.replace(/[\s\u00A0\u2009\u202F]+/g, ' ').trim();
+    }
+
+    /**
+     * Récupère le texte visible et le texte de l'aria-label pour une analyse plus complète
+     * @param {HTMLElement} element - Élément à analyser
+     * @returns {string} Texte combiné
+     */
+    function getTextForAnalysis(element) {
+        const visible = extractNormalizedText(element);
+        const ariaLabel = element.getAttribute('aria-label');
+        if (ariaLabel) {
+            return `${visible} | ${ariaLabel.replace(/[\s\u00A0\u2009\u202F]+/g, ' ').trim()}`;
+        }
+        return visible;
     }
 
     /**
@@ -718,7 +802,7 @@
         if (!viewsKeywords || !Array.isArray(viewsKeywords)) return text;
 
         const lowerText = text.toLowerCase();
-        const hasKeyword = viewsKeywords.some(kw => lowerText.includes(kw.toLowerCase()));
+        const hasKeyword = viewsKeywords.some(kw => lowerText.includes(kw.toLowerCase())) || lowerText.includes('spectateur') || lowerText.includes('spectator') || lowerText.includes('watching') || lowerText.includes('vue') || lowerText.includes('view');
         return hasKeyword ? text : text + ' ' + viewsKeywords[0];
     }
 
@@ -773,6 +857,8 @@
         const allSelectors = [
             // Page d'accueil et abonnements
             'span.yt-content-metadata-view-model__metadata-text',
+            'span.ytContentMetadataViewModelMetadataText',
+            'span.ytAttributedStringHost',
             'span[class*="metadata-text"]',
             'yt-formatted-string span',
             // Pages de chaîne
@@ -799,7 +885,9 @@
             // Commentaires
             'a.yt-simple-endpoint.style-scope.ytd-comment-view-model',
             'a[class*="comment-view-model"]',
-            'ytd-comment-view-model a'
+            'ytd-comment-view-model a',
+            // Marqueur YouTube
+            'span.ytContentMetadataViewModelLeadingIcon div'
         ];
 
         // Traiter tous les sélecteurs de manière unifiée
@@ -816,17 +904,27 @@
                         return;
                     }
 
-                    const text = extractNormalizedText(element);
-                    if (!text) return;
+                    // Traitement spécial pour le marqueur YouTube
+                    if (element.closest('span.ytContentMetadataViewModelLeadingIcon')) {
+                        applyStyle(element, { color: getYoutubeMarkerColor(), fontWeight: element.style.fontWeight || 'normal' });
+                        processedElements.add(element);
+                        return;
+                    }
 
-                    const lowerText = text.toLowerCase();
-                    const hasDate = hasDateKeyword(text);
+                    // Extraire le texte visible et l'aria-label pour une analyse complète
+                    const visibleText = extractNormalizedText(element);
+                    if (!visibleText) return;
+
+                    const analysisText = getTextForAnalysis(element);
+                    const lowerText = analysisText.toLowerCase();
+                    const hasDate = hasDateKeyword(analysisText);
                     const hasViews = hasViewsKeyword(lowerText);
 
+                    // Si on a détecté des mots-clés de date ou de vues, appliquer le style
                     if (hasDate || hasViews) {
                         const textForColorization = hasViews
-                            ? addViewsKeywordIfNeeded(text)
-                            : text;
+                            ? addViewsKeywordIfNeeded(analysisText)
+                            : analysisText;
 
                         applyStyle(element, colorizeText(textForColorization));
                         processedElements.add(element);
@@ -858,7 +956,7 @@
             colorizeElements(
                 '#view-count yt-formatted-string span',
                 '[id*="view-count"] yt-formatted-string span, [id*="viewCount"] yt-formatted-string span',
-                { filter: (span) => hasViewsKeyword((span.textContent || '').toLowerCase()) }
+                { filter: (span) => hasViewsKeyword(getTextForAnalysis(span).toLowerCase()) }
             );
         }
 
@@ -887,7 +985,7 @@
             colorizeElements(
                 '#date-text yt-formatted-string span',
                 '[id*="date-text"] yt-formatted-string span, [id*="dateText"] yt-formatted-string span',
-                { filter: (span) => hasDateKeyword(span.textContent || '') }
+                { filter: (span) => hasDateKeyword(getTextForAnalysis(span)) }
             );
         }
     }
@@ -1194,6 +1292,7 @@
             const isLight = key.endsWith('-light');
 
             const cssVarMap = {
+                'youtube-marker': '--quick-view-youtube-marker',
                 'date-day': '--quick-view-date-day',
                 'date-week': '--quick-view-date-week',
                 'date-month': '--quick-view-date-month',
