@@ -31,11 +31,15 @@ Extension Chrome pour améliorer l'affichage de YouTube avec un mode Quick View 
 2. Cliquez sur le bouton de bascule dans le header (icône liste/grille)
 3. Ou utilisez le raccourci `Shift + L`
 
+<img width="1280" height="800" alt="quick_view_display_fr" src="https://github.com/user-attachments/assets/fe2156c0-0e00-43e8-a56c-9c27af5f6fb3" />
+
 Le mode Quick View affiche les vidéos dans une grille avec plus de colonnes, et les statistiques (dates, vues) sont automatiquement colorisées selon leur valeur :
 - **Dates** : Couleurs différentes selon l'ancienneté (heure, jour, semaine, mois, année)
 - **Vues**  : Couleurs différentes selon l'échelle (base, milliers, millions, milliards)
 
 Les couleurs sont personnalisables via la popup de configuration de l'extension.
+
+<img width="640" height="400" alt="quick_view_config_fr" src="https://github.com/user-attachments/assets/e3d1ebdc-c2d3-467a-89de-adf0851a77e6" />
 
 ## Structure des fichiers
 
