@@ -13,6 +13,7 @@ desktop.ini
 .vs/
 .vscode/
 .idea/
+*.xlsx
 PUBLICATION.md
 quick_view_config_fr.png
 quick_view_display_fr.png
