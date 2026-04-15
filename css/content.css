@@ -1,61 +1,37 @@
-/* ============================================================
+﻿/* ============================================================
     COULEURS
     ============================================================ */
 
-/* Couleurs de l'ancienneté - Mode sombre */
 html[dark],
 body[dark] {
-    --quick-view-date-day: #54E38F;
-    /* Vert clair pour les vidéos du jour */
-    --quick-view-date-week: #54D7E3;
-    /* Cyan pour les vidéos de la semaine */
-    --quick-view-date-month: #5484E3;
-    /* Bleu pour les vidéos du mois */
-    --quick-view-date-year-1-3: #8F6BEB;
-    /* Violet pour 1-3 ans */
-    --quick-view-date-year-3-plus: #CC54E3;
-    /* Violet foncé pour 3+ ans */
-    --quick-view-date-default: #64E354;
-    /* Vert par défaut */
+    --quick-view-date-day: var(--user-dark-date-day, #54E38F);
+    --quick-view-date-week: var(--user-dark-date-week, #54D7E3);
+    --quick-view-date-month: var(--user-dark-date-month, #5484E3);
+    --quick-view-date-year-1-3: var(--user-dark-date-year-1-3, #8F6BEB);
+    --quick-view-date-year-3-plus: var(--user-dark-date-year-3-plus, #CC54E3);
+    --quick-view-date-default: var(--user-dark-date-default, #64E354);
+    
+    --quick-view-views-k: var(--user-dark-views-k, #FFE8C9);
+    --quick-view-views-m: var(--user-dark-views-m, #FFCC8A);
+    --quick-view-views-md: var(--user-dark-views-md, #FFB85C);
+
+    --quick-view-youtube-marker: var(--user-dark-youtube-marker, #F04949);
 }
 
-/* Couleurs de l'ancienneté - Mode clair */
 html:not([dark]) {
-    --quick-view-date-day: #0F9D58;
-    /* Vert foncé pour les vidéos du jour */
-    --quick-view-date-week: #0D7377;
-    /* Cyan foncé pour les vidéos de la semaine */
-    --quick-view-date-month: #1A73E8;
-    /* Bleu foncé pour les vidéos du mois */
-    --quick-view-date-year-1-3: #6C1ED9;
-    /* Violet foncé pour 1-3 ans */
-    --quick-view-date-year-3-plus: #8E24AA;
-    /* Violet très foncé pour 3+ ans */
-    --quick-view-date-default: #137333;
-    /* Vert foncé par défaut */
-}
+    --quick-view-date-day: var(--user-light-date-day, #0F9D58);
+    --quick-view-date-week: var(--user-light-date-week, #0D7377);
+    --quick-view-date-month: var(--user-light-date-month, #1A73E8);
+    --quick-view-date-year-1-3: var(--user-light-date-year-1-3, #6C1ED9);
+    --quick-view-date-year-3-plus: var(--user-light-date-year-3-plus, #8E24AA);
+    --quick-view-date-default: var(--user-light-date-default, #137333);
+    
+    --quick-view-views-k: var(--user-light-views-k, #C48938);
+    --quick-view-views-m: var(--user-light-views-m, #FA9717);
+    --quick-view-views-md: var(--user-light-views-md, #FBA434);
 
-/* Couleurs du nombre de vues - Mode sombre */
-html[dark],
-body[dark] {
-    --quick-view-views-k: #FFE8C9;
-    /* Beige clair pour milliers (k) */
-    --quick-view-views-m: #FFCC8A;
-    /* Orange clair pour millions (M) */
-    --quick-view-views-md: #FFB85C;
-    /* Orange foncé pour milliards (Md) */
+    --quick-view-youtube-marker: var(--user-light-youtube-marker, #963232);
 }
-
-/* Couleurs du nombre de vues - Mode clair */
-html:not([dark]) {
-    --quick-view-views-k: #C48938;
-    /* Beige foncé pour milliers (k) */
-    --quick-view-views-m: #FA9717;
-    /* Orange clair pour millions (M) */
-    --quick-view-views-md: #FBA434;
-    /* Orange foncé pour milliards (Md) */
-}
-
 /* ============================================================
     THEMES
     ============================================================ */
@@ -167,12 +143,10 @@ html.yt-quick-view-mode ytd-rich-item-renderer ytd-video-meta-block {
     SECTIONS
     ============================================================ */
 
-/* Masquer les sections de contenu groupées */
 html.yt-quick-view-mode ytd-rich-section-renderer {
     display: none !important;
 }
 
-/* Masquer aussi les autres types de sections problématiques */
 html.yt-quick-view-mode ytd-rich-shelf-renderer,
 html.yt-quick-view-mode ytd-reel-shelf-renderer {
     display: none !important;
@@ -182,7 +156,6 @@ html.yt-quick-view-mode ytd-reel-shelf-renderer {
     BOUTON DE BASCULE
     ============================================================ */
 
-/* Styles de base du bouton */
 #yt-quick-view-toggle-btn {
     margin-left: 16px !important;
     margin-right: 16px !important;
@@ -200,10 +173,16 @@ html.yt-quick-view-mode ytd-reel-shelf-renderer {
     transition: background-color 0.2s ease !important;
 }
 
-/* Styles SVG dans le bouton */
 #yt-quick-view-toggle-btn svg {
     display: block !important;
     margin: auto !important;
     fill: none !important;
     flex-shrink: 0 !important;
+}
+
+/* ============================================================
+    MARQUEUR YOUTUBE
+    ============================================================ */
+html[data-quick-view-colors="true"] span.ytContentMetadataViewModelLeadingIcon div {
+    color: var(--quick-view-youtube-marker) !important;
 }

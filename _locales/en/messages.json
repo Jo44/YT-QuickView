@@ -1,10 +1,28 @@
-{
-    "appName": {
-        "message": "YouTube - Quick View",
-        "description": "Extension name"
-    },
-    "appDescription": {
-        "message": "Quickly switch between video list mode (classic or large grid), and colorize statistics (age, number of views).",
-        "description": "Extension description"
-    }
+﻿{
+    "appName": { "message": "YouTube - Quick View", "description": "Extension name" },
+    "appDescription": { "message": "Quick toggle for video layout mode (classic or large grid) and statistics colorization (age, view count).", "description": "Extension description" },
+    "title": { "message": "YouTube - Quick View" },
+    "header_title": { "message": "YouTube - Quick View" },
+    "usage_title": { "message": "Usage" },
+    "usage_description_part1": { "message": "Enable or disable Quick View mode by clicking the button" },
+    "usage_description_part2": { "message": "in YouTube header or using the keyboard shortcut." },
+    "shortcut_title": { "message": "Shortcut" },
+    "shortcut_description": { "message": "Keyboard shortcut to toggle Quick View mode: " },
+    "colors_title": { "message": "Colors" },
+    "dark_mode_title": { "message": "Dark mode" },
+    "light_mode_title": { "message": "Light mode" },
+    "global_title": { "message": "Global" },
+    "global_youtube": { "message": "YouTube marker" },
+    "date_title": { "message": "Age" },
+    "date_default": { "message": "Hour" },
+    "date_day": { "message": "Day" },
+    "date_week": { "message": "Week" },
+    "date_month": { "message": "Month" },
+    "date_year_1_3": { "message": "1-3 years" },
+    "date_year_3_plus": { "message": "3+ years" },
+    "views_title": { "message": "View Count" },
+    "views_k": { "message": "Thousands (K)" },
+    "views_m": { "message": "Millions (M)" },
+    "views_md": { "message": "Billions (B)" },
+    "reset_confirm": { "message": "Do you want to reset all colors to default values?" }
 }

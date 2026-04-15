@@ -1,74 +1,18 @@
+﻿//////////////////////////////////////////
+// Config.js - Fenêtre de configuration //
+//////////////////////////////////////////
 (() => {
     'use strict';
 
     // Constantes
-    const COLOR_STORAGE_PREFIX = 'quickViewColor_';
-    const COLORS_ENABLED_KEY = 'quickViewColorsEnabled';
+    const { 
+        COLOR_STORAGE_PREFIX, 
+        COLORS_ENABLED_KEY, 
+        createListIcon, 
+        createGridIcon 
+    } = window.YTQuickViewShared;
 
-    // Constantes pour les icônes SVG
-    const SVG_NS = 'http://www.w3.org/2000/svg';
-    const SVG_SIZE = '20';
-    const SVG_VIEWBOX = '0 0 24 24';
-    const STROKE_WIDTH = '2.0';
-
-    /**
-     * Traductions disponibles
-     */
-    const translations = {
-        fr: {
-            'title': 'YouTube - Quick View',
-            'header-title': 'YouTube - Quick View',
-            'usage-title': 'Utilisation',
-            'usage-description-part1': 'Activez ou désactivez le mode Quick View en cliquant sur le bouton',
-            'usage-description-part2': 'dans l\'entête de la page YouTube ou en utilisant le raccourci clavier.',
-            'shortcut-title': 'Raccourci',
-            'shortcut-description': 'Raccourci clavier pour basculer le mode Quick View : ',
-            'colors-title': 'Couleurs',
-            'dark-mode-title': 'Mode sombre',
-            'light-mode-title': 'Mode clair',
-            'global-title': 'Global',
-            'global-youtube': 'Marqueur YouTube',
-            'date-title': 'Ancienneté',
-            'date-default': 'Heure',
-            'date-day': 'Jour',
-            'date-week': 'Semaine',
-            'date-month': 'Mois',
-            'date-year-1-3': '1-3 ans',
-            'date-year-3-plus': '3+ ans',
-            'views-title': 'Nombre de vues',
-            'views-k': 'Milliers (k)',
-            'views-m': 'Millions (M)',
-            'views-md': 'Milliards (Md)',
-            'reset-confirm': 'Voulez-vous réinitialiser toutes les couleurs aux valeurs par défaut ?'
-        },
-        en: {
-            'title': 'YouTube - Quick View',
-            'header-title': 'YouTube - Quick View',
-            'usage-title': 'Usage',
-            'usage-description-part1': 'Enable or disable Quick View mode by clicking the button',
-            'usage-description-part2': 'in YouTube header or using the keyboard shortcut.',
-            'shortcut-title': 'Shortcut',
-            'shortcut-description': 'Keyboard shortcut to toggle Quick View mode : ',
-            'colors-title': 'Colors',
-            'dark-mode-title': 'Dark mode',
-            'light-mode-title': 'Light mode',
-            'global-title': 'Global',
-            'global-youtube': 'YouTube marker',
-            'date-title': 'Age',
-            'date-default': 'Hour',
-            'date-day': 'Day',
-            'date-week': 'Week',
-            'date-month': 'Month',
-            'date-year-1-3': '1-3 years',
-            'date-year-3-plus': '3+ years',
-            'views-title': 'View Count',
-            'views-k': 'Thousands (K)',
-            'views-m': 'Millions (M)',
-            'views-md': 'Billions (B)',
-            'reset-confirm': 'Do you want to reset all colors to default values?'
-        }
-    };
-
+    
     // Couleurs par défaut
     const DEFAULT_COLORS = {
         // Global
@@ -96,7 +40,7 @@
         'views-md-light': '#FBA434'
     };
 
-    // Éléments DOM
+    // Eléments DOM
     const colorsEnabledCheckbox = document.getElementById('colors-enabled');
     const colorPickers = {
         // Global
@@ -124,73 +68,7 @@
         'views-md-light': document.getElementById('views-md-light')
     };
 
-    // ===================== ICÔNES SVG =====================
-    /**
-     * Crée un élément SVG de base
-     */
-    function createBaseSVG() {
-        const svg = document.createElementNS(SVG_NS, 'svg');
-        svg.setAttribute('width', SVG_SIZE);
-        svg.setAttribute('height', SVG_SIZE);
-        svg.setAttribute('viewBox', SVG_VIEWBOX);
-        return svg;
-    }
-
-    /**
-     * Crée un élément path SVG
-     */
-    function createSVGPath(d, strokeColor) {
-        const path = document.createElementNS(SVG_NS, 'path');
-        path.setAttribute('d', d);
-        path.setAttribute('stroke', strokeColor);
-        path.setAttribute('stroke-width', STROKE_WIDTH);
-        path.setAttribute('stroke-linecap', 'round');
-        return path;
-    }
-
-    /**
-     * Crée un élément rect SVG
-     */
-    function createSVGRect(x, y, width, height, strokeColor) {
-        const rect = document.createElementNS(SVG_NS, 'rect');
-        rect.setAttribute('x', x);
-        rect.setAttribute('y', y);
-        rect.setAttribute('width', width);
-        rect.setAttribute('height', height);
-        rect.setAttribute('stroke', strokeColor);
-        rect.setAttribute('stroke-width', STROKE_WIDTH);
-        rect.setAttribute('fill', 'none');
-        return rect;
-    }
-
-    /**
-     * Crée l'icône de liste (3 lignes horizontales)
-     */
-    function createListIcon(strokeColor) {
-        const svg = createBaseSVG();
-        svg.appendChild(createSVGPath('M3 6h18', strokeColor));
-        svg.appendChild(createSVGPath('M3 12h18', strokeColor));
-        svg.appendChild(createSVGPath('M3 18h18', strokeColor));
-        return svg;
-    }
-
-    /**
-     * Crée l'icône de grille (4 carrés)
-     */
-    function createGridIcon(strokeColor) {
-        const svg = createBaseSVG();
-        const positions = [
-            { x: 3, y: 3 },
-            { x: 14, y: 3 },
-            { x: 3, y: 14 },
-            { x: 14, y: 14 }
-        ];
-        positions.forEach(pos => {
-            svg.appendChild(createSVGRect(pos.x, pos.y, 7, 7, strokeColor));
-        });
-        return svg;
-    }
-
+    // ===================== PREVISUALISATION BOUTONS =====================
     /**
      * Initialise les boutons de prévisualisation
      */
@@ -212,6 +90,7 @@
                 Object.assign(svg.style, { display: 'block', margin: 'auto' });
             });
 
+            // Insérer les icônes dans les conteneurs
             gridPreview.appendChild(gridIcon);
             listPreview.appendChild(listIcon);
         }
@@ -219,26 +98,15 @@
 
     // ===================== TRADUCTION =====================
     /**
-     * Détecte la langue du navigateur
-     * @returns {string} 'fr' si français, 'en' sinon
-     */
-    function detectLanguage() {
-        const browserLang = navigator.language || navigator.userLanguage;
-        return browserLang.toLowerCase().startsWith('fr') ? 'fr' : 'en';
-    }
-
-    /**
-     * Applique les traductions selon la langue détectée
+     * Applique les traductions selon la langue par défaut du navigateur
      */
     function applyTranslations() {
-        const lang = detectLanguage();
-        document.documentElement.lang = lang;
-
-        // Traduire tous les éléments avec l'attribut data-i18n
+        document.documentElement.lang = chrome.i18n.getUILanguage() || 'en';
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                element.textContent = translations[lang][key];
+            const translation = chrome.i18n.getMessage(key);
+            if (translation) {
+                element.textContent = translation;
             }
         });
     }
@@ -272,6 +140,7 @@
      */
     function saveColorsEnabled(enabled) {
         chrome.storage.local.set({ [COLORS_ENABLED_KEY]: enabled }, () => {
+            // Mettre à jour l'état des color pickers et des boutons de reset
             updateColorPickersState(enabled);
             // Notifier le content script
             notifyContentScript('colorsEnabled', { enabled });
@@ -304,6 +173,7 @@
             Object.keys(colorPickers).forEach(key => {
                 const storageKey = COLOR_STORAGE_PREFIX + key;
                 if (result[storageKey]) {
+                    // Utiliser la couleur personnalisée
                     colorPickers[key].value = result[storageKey];
                 } else {
                     // Utiliser la couleur par défaut
@@ -321,7 +191,7 @@
     function saveColor(key, color) {
         const storageKey = COLOR_STORAGE_PREFIX + key;
         chrome.storage.local.set({ [storageKey]: color }, () => {
-            // Notifier le content script du changement de couleur
+            // Notifier le content script
             notifyContentScript('colorChange', { key, color });
         });
     }
@@ -332,12 +202,11 @@
      */
     function resetColors(theme) {
         const themeSuffix = theme === 'dark' ? '-dark' : '-light';
-        const lang = detectLanguage();
-        const confirmText = translations[lang]['reset-confirm'];
-
+        const confirmText = chrome.i18n.getMessage('reset_confirm');
         if (confirm(confirmText)) {
             Object.keys(colorPickers).forEach(key => {
                 if (key.endsWith(themeSuffix) && DEFAULT_COLORS[key]) {
+                    // Réinitialiser la couleur à la valeur par défaut
                     const defaultColor = DEFAULT_COLORS[key];
                     colorPickers[key].value = defaultColor;
                     saveColor(key, defaultColor);
@@ -361,21 +230,21 @@
         });
     }
 
-    // ===================== ÉVÉNEMENTS =====================
+    // ===================== EVENEMENTS =====================
     // Changements de couleurs
     Object.keys(colorPickers).forEach(key => {
-        colorPickers[key].addEventListener('change', (e) => {
-            saveColor(key, e.target.value);
+        colorPickers[key].addEventListener('change', (event) => {
+            saveColor(key, event.target.value);
         });
     });
 
     // Boutons reset par thème
     document.querySelectorAll('.btn-reset-theme').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', (event) => {
             // Empêcher l'action si le bouton est désactivé
             if (btn.disabled) {
-                e.preventDefault();
-                e.stopPropagation();
+                event.preventDefault();
+                event.stopPropagation();
                 return;
             }
             const theme = btn.getAttribute('data-theme');
@@ -385,8 +254,8 @@
 
     // Checkbox pour activer/désactiver les couleurs
     if (colorsEnabledCheckbox) {
-        colorsEnabledCheckbox.addEventListener('change', (e) => {
-            saveColorsEnabled(e.target.checked);
+        colorsEnabledCheckbox.addEventListener('change', (event) => {
+            saveColorsEnabled(event.target.checked);
         });
     }
 

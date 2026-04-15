@@ -25,12 +25,23 @@
     "host_permissions": [
         "https://www.youtube.com/*"
     ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "js/modules/*"
+            ],
+            "matches": [
+                "https://www.youtube.com/*"
+            ]
+        }
+    ],
     "content_scripts": [
         {
             "matches": [
                 "https://www.youtube.com/*"
             ],
             "js": [
+                "js/shared.js",
                 "js/content.js"
             ],
             "css": [
