@@ -110,7 +110,7 @@ function colorizeDate(text) {
     // Pattern regex basé sur la langue YouTube
     let patternStr = getLanguagePack().dateRegexPattern;
     if (!patternStr) patternStr = LANGUAGE_PACKS.en.dateRegexPattern;
-    
+
     // Pattern restrictif pour date
     const datePattern = new RegExp(patternStr, "i");
     if (!datePattern.test(lower) && text.length > 100) return null;
@@ -248,7 +248,7 @@ export function applyStyle(element, style) {
     // Application du style
     element.style.color = style.color;
     element.style.fontWeight = style.fontWeight;
-    
+
     // Mise à jour du cache de style
     styleCache.set(element, { color: style.color, fontWeight: style.fontWeight });
 }
@@ -419,10 +419,10 @@ export function updateAllStyles(rootNodes = [document]) {
             try {
                 // Trouver les enfants qui correspondent
                 const children = Array.from(root.querySelectorAll(selector));
-                
+
                 // Vérifier si le root lui-même correspond (Optimisation MutationObserver)
-                const elements = (root !== document && root.matches && root.matches(selector)) 
-                    ? [root, ...children] 
+                const elements = (root !== document && root.matches && root.matches(selector))
+                    ? [root, ...children]
                     : children;
 
                 // Parcours de tous les éléments trouvés pour l'analyse et la colorisation
@@ -432,6 +432,7 @@ export function updateAllStyles(rootNodes = [document]) {
                     if (!document.contains(element)) return;
                     if (processedElements.has(element)) return;
                     if (element.closest('#view-count, #date-text')) return;
+                    if (element.closest('yt-attributed-string#content-text')) return;
 
                     // Extraction du texte visible normalisé pour l'analyse
                     const visibleText = extractNormalizedText(element);
@@ -458,7 +459,7 @@ export function updateAllStyles(rootNodes = [document]) {
                         processedElements.add(element);
                     }
                 });
-            } catch (ex) {}
+            } catch (ex) { }
         });
     });
 }
@@ -486,7 +487,7 @@ export function updateVideoPageStyles(rootNodes = [document]) {
                 // Application du style
                 applyStyle(textSpan, colorizeText(textSpan.textContent + ' ' + viewsKeywords[0]));
             }
-            
+
             // Colorisation des spans internes avec filtrage de mots-clés
             colorizeElements('#view-count yt-formatted-string span', '[id*="view-count"] yt-formatted-string span, [id*="viewCount"] yt-formatted-string span', { filter: (span) => hasViewsKeyword(getTextForAnalysis(span).toLowerCase()) }, root);
         }
@@ -534,15 +535,15 @@ export function updateVideowallStyles(rootNodes = [document]) {
         for (const selector of selectors) {
             try {
                 const children = Array.from(root.querySelectorAll(selector));
-                const elements = (root !== document && root.matches && root.matches(selector)) 
-                    ? [root, ...children] 
+                const elements = (root !== document && root.matches && root.matches(selector))
+                    ? [root, ...children]
                     : children;
 
                 if (elements.length > 0) {
                     videowallSpans = elements;
                     break;
                 }
-            } catch (ex) {}
+            } catch (ex) { }
         }
 
         // Parcours de tous les éléments trouvés pour l'analyse et la colorisation

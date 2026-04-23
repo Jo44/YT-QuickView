@@ -1,84 +1,85 @@
 # YouTube – Quick View
 
-Extension Chrome pour améliorer l'affichage de YouTube avec un mode Quick View et des couleurs pour les statistiques.
+Chrome extension to improve YouTube display with Quick View mode and statistics colorization.
 
-## Fonctionnalités
+## Features
 
-- **Mode Quick View**           : Bascule rapide entre vue classique et vue grille (plus de colonnes)
-- **Couleurs des statistiques** : Colorisation automatique des dates et du nombre de vues avec personnalisation par thème
-- **Raccourci clavier**         : Bascule le mode avec `Shift + L`
-- **Support multilingue**       : Français et Anglais (détection automatique)
-- **Adaptation au thème**       : Couleurs adaptées au mode clair/sombre de YouTube avec configuration séparée
-- **Configuration avancée**     : Personnalisez les couleurs pour chaque type de statistique et chaque thème
+- **Quick View mode**           : Quickly switch between classic view and grid view (more columns)
+- **Statistics colorization**	: Automatic colorization of dates and view counts, with customization by theme
+- **Keyboard shortcut**         : Toggle mode with `Shift + L`
+- **Multilingual support**      : English and French (automatic detection)
+- **Advanced configuration**    : Customize the colors for each type of statistic and for each theme
 
 ## Installation
 
-### Depuis le Chrome WebStore
+### From Chrome WebStore
 
-[Lien 🌐](https://chromewebstore.google.com/detail/youtube-quick-view/pfgnimcdoenieikioadlnbicnjldmhoa) 
+[Link 🌐](https://chromewebstore.google.com/detail/youtube-quick-view/pfgnimcdoenieikioadlnbicnjldmhoa) 
 
-### Depuis les fichiers sources
+### From source files
 
-1. Clonez ou téléchargez ce dépôt
-2. Ouvrez Chrome et allez dans `chrome://extensions/`
-3. Activez le "Mode développeur" (en haut à droite)
-4. Cliquez sur "Charger l'extension non empaquetée"
-5. Sélectionnez le dossier contenant les fichiers de l'extension
+1. Clone or download this repository
+2. Open Chrome and go to `chrome://extensions/`
+3. Activate "Developer mode" (top right)
+4. Click on "Load unpacked"
+5. Select the folder containing the extensionq
 
-## Utilisation
+## Usage
 
-1. Allez sur YouTube
-2. Cliquez sur le bouton de bascule dans le header (icône liste/grille)
-3. Ou utilisez le raccourci `Shift + L`
+1. Go to YouTube.com
+2. Click the toggle button in the header (list/grid icon)
+3. Or use the shortcut `Shift + L`
 
 <img width="1280" height="800" alt="quick_view_display_fr" src="https://github.com/user-attachments/assets/fe2156c0-0e00-43e8-a56c-9c27af5f6fb3" />
 
-Le mode Quick View affiche les vidéos dans une grille avec plus de colonnes, et les statistiques (dates, vues) sont automatiquement colorisées selon leur valeur :
-- **Dates** : Couleurs différentes selon l'ancienneté (heure, jour, semaine, mois, année)
-- **Vues**  : Couleurs différentes selon l'échelle (base, milliers, millions, milliards)
+Quick View mode displays videos in a grid with more columns, and statistics (dates / views) are automatically color-coded according to their value :
+- **Dates**  : Different colors depending on the scale (hour, day, week, month, year)
+- **Views**  : Different colors depending on the scale (base, thousands, millions, billions)
 
-Les couleurs sont personnalisables via la popup de configuration de l'extension.
+The colors can be customized via the extension's configuration popup.
 
 <img width="640" height="400" alt="quick_view_config_fr" src="https://github.com/user-attachments/assets/e3d1ebdc-c2d3-467a-89de-adf0851a77e6" />
 
-## Structure des fichiers
+## File structure
 
 ```
 Quick View/
-├── _locales/            # Traductions (FR/EN)
-├── css/                 # Fichiers CSS
-│   ├── config.css       # Styles de la fenêtre de configuration
-│   └── content.css      # Styles pour YouTube
-├── html/                # Fichiers HTML
-│   └── config.html      # Interface de configuration
-├── icons/               # Icônes de l'extension
-├── js/                  # Fichiers JavaScript
-│   ├── modules/         # Modules JavaScript
-│   │   ├── colorizer.js # Module de colorisation
-│   │   ├── global.js    # Module global
-│   │   ├── main.js      # Module principal
-│   │   ├── observer.js  # Module d'observation des changements DOM
-│   │   ├── theme.js     # Module de gestion du thème
-│   │   ├── ui.js        # Module d'interface utilisateur
-│   │   └── utils.js     # Module d'utilitaires
-│   ├── config.js        # Fenêtre de configuration
-│   ├── content.js       # Chargeur de modules
-│   └── shared.js        # Constantes et fonctions partagées
-├── manifest.json        # Configuration de l'extension (Manifest V3)
+├── _locales/            # Translations (EN/FR)
+├── css/                 # CSS files
+│   ├── config.css       # Configuration window style
+│   └── content.css      # YouTube style
+├── html/                # HTML file
+│   └── config.html      # Configuration interface
+├── icons/               # Extension icons
+├── js/                  # JavaScript files
+│   ├── modules/         # JavaScript modules
+│   │   ├── colorizer.js # Colorization module
+│   │   ├── global.js    # Global module
+│   │   ├── main.js      # Main module
+│   │   ├── observer.js  # DOM change observation module
+│   │   ├── theme.js     # Theme management module
+│   │   ├── ui.js        # User interface module
+│   │   └── utils.js     # Utility module
+│   ├── config.js        # Configuration behaviour
+│   ├── content.js       # Module loader
+│   └── shared.js        # Shared constants and functions
+├── manifest.json        # Configuring the extension (Manifest V3)
 └── README.md            # Documentation
 ```
 
 ## Notes
 
-- L'extension fonctionne uniquement sur `https://www.youtube.com/*`
-- Les préférences sont sauvegardées dans `localStorage` (état du mode) et `chrome.storage.local` (couleurs et activation)
-- La popup de configuration permet de personnaliser les couleurs pour chaque thème (clair/sombre)
-- La colorisation peut être activée/désactivée via un toggle dans la popup de configuration
+- The extension only works on `https://www.youtube.com/*`
+- Colorization can be enabled/disabled via a toggle in the configuration popup
+- The configuration popup allows you to customize the colors for each theme (dark / light)
+- Preferences are saved in `localStorage` (mode state) and `chrome.storage.local` (colors and activation)
 
 ## Updates
 - **v1.0** : 
   - Initial release
 - **v1.1** : 
-  - Fixed CSS selectors for colorization (YouTube update)
+  - Fixed CSS selectors for colorization (after YouTube update)
   - Modularized code into separate files for better maintainability
   - Better optimization and performance
+- **v1.2** : 
+  - Fixed unexpected comment content colorization

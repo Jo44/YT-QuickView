@@ -1,6 +1,6 @@
 ﻿{
     "appName": { "message": "YouTube - Quick View", "description": "Extension name" },
-    "appDescription": { "message": "Quick toggle for video layout mode (classic or large grid) and statistics colorization (age, view count).", "description": "Extension description" },
+    "appDescription": { "message": "Chrome extension to improve YouTube display with 'Quick View' mode and statistics colorization", "description": "Extension description" },
     "title": { "message": "YouTube - Quick View" },
     "header_title": { "message": "YouTube - Quick View" },
     "usage_title": { "message": "Usage" },

@@ -1,6 +1,6 @@
 ﻿{
     "appName": { "message": "YouTube - Quick View", "description": "Nom de l'extension" },
-    "appDescription": { "message": "Bascule rapide du mode d'affichage des vidéos (classique ou grande grille) et colorisation des statistiques (ancienneté, nombre de vues).", "description": "Description de l'extension" },
+    "appDescription": { "message": "Extension Chrome pour améliorer l'affichage de YouTube grâce au mode 'Vue rapide' et à la coloration des statistiques", "description": "Description de l'extension" },
     "title": { "message": "YouTube - Quick View" },
     "header_title": { "message": "YouTube - Quick View" },
     "usage_title": { "message": "Utilisation" },
