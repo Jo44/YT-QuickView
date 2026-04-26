@@ -22,7 +22,7 @@ Chrome extension to improve YouTube display with Quick View mode and statistics 
 2. Open Chrome and go to `chrome://extensions/`
 3. Activate "Developer mode" (top right)
 4. Click on "Load unpacked"
-5. Select the folder containing the extensionq
+5. Select the folder containing the extension
 
 ## Usage
 
